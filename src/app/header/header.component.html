@@ -1,5 +1,6 @@
 <button type="button" (click)="onLoginClick()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginID">Login</button>
 <button type="button" (click)="onRegisterClick()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registerID">Register</button>
+<button type="button" (click)="onLogoutClick()" class="btn btn-primary btn-lg">Logout</button>
 
 <!-- login form -->
 <div>
@@ -21,7 +22,7 @@
               <br>
               <input type="password" name="password" placeholder="Password" ngModel />
               <br>
-              <button type="submit">Submit</button>
+              <button type="submit" data-toggle="modal" data-target="#loginID">Submit</button>
             </form>
 
           </div>
@@ -56,7 +57,9 @@
               <input type="text" name="name" placeholder="Name" ngModel />
               <br>
               <input type="text" name="surname" placeholder="Surname" ngModel />
-              <button type="submit">Submit</button>
+              <br>
+              <input type="email" name="email" placeholder="Email" ngModel />
+              <button type="submit" data-toggle="modal" data-target="#registerID">Submit</button>
             </form>
 
           </div>

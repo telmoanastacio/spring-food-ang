@@ -2,8 +2,9 @@ export interface Register
 {
     username: string;
     password: string;
-    confirmPassword: string;
+    confirmpassword: string;
     name?: string;
     surname?: string;
+    email?: string;
     _csrf: string;
 }

@@ -21,4 +21,9 @@ export class CsrfService
     
     return this.csrfStr;
   }
+
+  public setCsrfToken(csrfToken: string)
+  {
+    this.csrfStr = csrfToken;
+  }
 }

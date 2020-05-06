@@ -62,15 +62,16 @@ export class HeaderComponent implements OnInit
 
   public onSubmitRegisterForm(signInForm: NgForm): void
   {
-    const email: string = signInForm.form.controls.email.value;
+    const username: string = signInForm.form.controls.username.value;
     const password: string = signInForm.form.controls.password.value;
     const cPassword: string = signInForm.form.controls.cpassword.value;
     const name: string = signInForm.form.controls.name.value;
     const surname: string = signInForm.form.controls.surname.value;
+    const email: string = signInForm.form.controls.email.value;
 
-    if(email === null
-      || email === undefined
-      || email.length === 0
+    if(username === null
+      || username === undefined
+      || username.length === 0
       || password === null
       || password === undefined
       || password.length === 0
@@ -84,6 +85,13 @@ export class HeaderComponent implements OnInit
 
     if(cPassword === password)
     {
+      this.userService.register(
+        username,
+        password,
+        cPassword,
+        name === undefined ? null: name,
+        surname === undefined ? null: surname,
+        email === undefined ? null: email)
     }
     else
     {
@@ -94,5 +102,10 @@ export class HeaderComponent implements OnInit
   public onRegisterClick(): void
   {
     this.isRegisterVisible = !this.isRegisterVisible;
+  }
+
+  public onLogoutClick(): void
+  {
+    this.userService.logout();
   }
 }
