@@ -108,4 +108,9 @@ export class HeaderComponent implements OnInit
   {
     this.userService.logout();
   }
+
+  public onDeleteAccountClick(): void
+  {
+    this.userService.deleteAccount();
+  }
 }

@@ -6,6 +6,7 @@ import { CsrfService } from '../csrf/csrf.service';
 import { HttpUtilsService } from '../utils/http-utils.service';
 import { Register } from './register';
 import { Logout } from './logout';
+import { DeleteAccount } from './delete-account';
 
 @Injectable({
   providedIn: 'root'
@@ -235,6 +236,70 @@ export class UserService
           // console.log("complete");
         }
       });
+  }
+
+  private generateDeleteAccountObservable(): Observable<any>
+  {
+    if(!this.isLogedin || this.username === null || this.username === undefined)
+    {
+      return;
+    }
+    
+    const deleteAccount: DeleteAccount =
+    {
+      username: this.username,
+      _csrf: this.csrfService.getCsrfToken()
+    };
+    
+    return this.httpClient.post<any>(
+      this.BASE_URL + "/delete-account",
+      this.httpUtilsService.getFormUrlEncoded(deleteAccount),
+      {
+        observe: "response",
+        headers: new HttpHeaders(
+          {'Content-Type': 'application/x-www-form-urlencoded'})
+      });
+  }
+
+  public deleteAccount()
+  {
+    this.generateDeleteAccountObservable().subscribe(
+        {
+          next: (response: any) =>
+          {
+            // accepted
+            if(response.status === 202)
+            {
+              this.username = null;
+              this.password = null;
+              this.logedin = false;
+
+              //TODO: route to delete-account-success
+  
+              return;
+            }
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            return;
+          },
+          error: (e: any) =>
+          {
+            // bad request - user not found
+            if(e.status === 400)
+            {
+              console.log("user not found");
+
+              //TODO: route to delete-account-fail
+
+              return;
+            }
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            return;
+          },
+          complete: () =>
+          {
+            // console.log("complete");
+          }
+        });
   }
 
   public isLogedin(): boolean
