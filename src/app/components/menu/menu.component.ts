@@ -1,39 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { CsrfService } from 'src/app/services/csrf/csrf.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { NgForm } from '@angular/forms';
-import { CsrfService } from '../services/csrf/csrf.service';
-import { HttpClient } from '@angular/common/http';
-import { UserService } from '../services/user/user.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
 })
-export class HeaderComponent implements OnInit
+export class MenuComponent implements OnInit
 {
   private csrfService: CsrfService = null;
-  private userService: UserService = null;
+  public userService: UserService = null;
 
-  public isLoginVisible: boolean = false;
-  public isRegisterVisible: boolean = false;
-  
-  constructor(csrfService: CsrfService, userService: UserService)
+  public constructor(csrfService: CsrfService, userService: UserService)
   {
     this.csrfService = csrfService;
     this.userService = userService;
   }
 
-  public ngOnInit()
+  public ngOnInit(): void
   {
-    this.init();
-
     this.csrfService.getCsrfToken();
-  }
-
-  private init() : void
-  {
-    this.isLoginVisible = false;
-    this.isRegisterVisible = false;
   }
 
   public onSubmitSignIn(signInForm: NgForm): void
@@ -53,11 +41,6 @@ export class HeaderComponent implements OnInit
     }
 
     this.userService.login(username, password);
-  }
-
-  public onLoginClick(): void
-  {
-    this.isLoginVisible = !this.isLoginVisible;
   }
 
   public onSubmitRegisterForm(signInForm: NgForm): void
@@ -97,11 +80,6 @@ export class HeaderComponent implements OnInit
     {
       alert("Password and confirmation password doesn't match");
     }
-  }
-
-  public onRegisterClick(): void
-  {
-    this.isRegisterVisible = !this.isRegisterVisible;
   }
 
   public onLogoutClick(): void

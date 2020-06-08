@@ -7,19 +7,20 @@ import { HttpUtilsService } from '../utils/http-utils.service';
 import { Register } from './register';
 import { Logout } from './logout';
 import { DeleteAccount } from './delete-account';
+import { Config } from '../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService
 {
-  private BASE_URL: string = "http://localhost:8081";
+  private BASE_URL: string = Config.BASE_URL;
 
   private csrfService: CsrfService = null;
   private httpUtilsService: HttpUtilsService = null;
   private httpClient: HttpClient = null;
 
-  private logedin: boolean = false;
+  public logedin: boolean = false;
   private username: string = null;
   private password: string = null;
 
@@ -78,11 +79,10 @@ export class UserService
             this.username = username;
             this.password = password;
 
-            //TODO: route to login-accepted (it was in login route)
-
+            alert("Login successfull.");
             return;
           }
-          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
         error: (e: any) =>
@@ -90,11 +90,10 @@ export class UserService
           // forbiden
           if(e.status === 401)
           {
-            this.httpUtilsService.redirectToExternalUrl(
-              "localhost:8081/access-denied");
+            alert("Login failed. Bad credentials.");
             return;
           }
-          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
         complete: () =>
@@ -167,11 +166,12 @@ export class UserService
             // accepted
             if(response.status === 202)
             {
-              //TODO: route to register-successful (it was in register route)
+              alert("Register successfull.");
+              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
   
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
           error: (e: any) =>
@@ -181,11 +181,12 @@ export class UserService
             {
               console.log("user already registered");
 
-              //TODO: route to register-conflict (it was in register route)
+              alert("Register conflict. Username taken.");
+              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
 
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
           complete: () =>
@@ -220,14 +221,17 @@ export class UserService
           this.username = null;
           this.password = null;
           this.logedin = false;
-          //TODO: route to logout-successful
+          alert("Logout successfull.");
+          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
 
           return;
         },
         error: (e: any) =>
         {
           this.logedin = false;
-          //TODO: route to logout-failed
+          alert("Logout failed.");
+          this.httpUtilsService.redirectToExternalUrl(
+            this.BASE_URL + "access-denied");
 
           return;
         },
@@ -274,11 +278,12 @@ export class UserService
               this.password = null;
               this.logedin = false;
 
-              //TODO: route to delete-account-success
+              alert("Delete account successfull.");
+              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
   
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
           error: (e: any) =>
@@ -288,11 +293,13 @@ export class UserService
             {
               console.log("user not found");
 
-              //TODO: route to delete-account-fail
+              alert("Delete account failed.");
+              this.httpUtilsService.redirectToExternalUrl(
+                this.BASE_URL + "access-denied");
 
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL + "/");
+            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
           complete: () =>
@@ -305,5 +312,15 @@ export class UserService
   public isLogedin(): boolean
   {
     return this.logedin;
+  }
+
+  public getUserName(): string
+  {
+    return this.username;
+  }
+
+  public getPassword(): string
+  {
+    return this.password;
   }
 }

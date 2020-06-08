@@ -1,0 +1,28 @@
+.container-fluid
+{
+    width: 100%;
+    max-width: 100%;
+    padding: 0%;
+    float: left;
+    text-align: center;
+}
+
+.button-container
+{
+    background-color: #EEEEEEFF;
+}
+
+.menu-options
+{
+    float: left;
+    width: 10%;
+    max-width: 10%;
+}
+
+.menu-button
+{
+    font-size: 1.2em;
+    padding: 0.5%;
+    float: left;
+    text-align: left;
+}

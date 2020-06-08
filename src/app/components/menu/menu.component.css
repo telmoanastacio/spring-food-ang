@@ -1,0 +1,20 @@
+button
+{
+    float: right;
+}
+
+.options-container
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.options-button
+{
+    background-color: #EEEEEE44;
+}
+
+.modal-body
+{
+    background-color: #EEEEEE44;
+}

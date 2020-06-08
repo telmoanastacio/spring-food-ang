@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpUtilsService
 {
-  constructor() {}
+  private router: Router = null;
+  private document: Document = null;
+
+  public constructor(router: Router, @Inject(DOCUMENT) document: Document)
+  {
+    this.router = router;
+    this.document = document;
+  }
 
   /**
    * return a native form request body
@@ -26,6 +35,9 @@ export class HttpUtilsService
   
   public redirectToExternalUrl(url: string): void
   {
-    window.location.href = url;
+    this.router.navigate(["/"]).then(result =>
+      {
+        window.location.href = url;
+      });
   }
 }
