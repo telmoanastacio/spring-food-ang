@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PreMenuComponent } from './components/pre-menu/pre-menu.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ContentRootComponent } from './components/content-root/content-root.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       PreMenuComponent,
-      MenuComponent
+      MenuComponent,
+      ContentRootComponent
    ],
    imports: [
       BrowserModule,

@@ -1,11 +1,13 @@
 <div class="container-fluid">
-    <div class="container-fluid button-container">
-        <div
-            type="menu"
-            class="button menu-button fa fa-bars"
-            (click)="onMenuClick()"></div>
-    </div>
-    <div class="row menu-item menu-options">
-        <app-menu *ngIf="showMenu"></app-menu>
+    <div class="items-list">
+        <div class="container-fluid button-container">
+            <div
+                type="menu"
+                class="menu-button fa fa-bars"
+                (click)="onMenuClick()"></div>
+        </div>
+        <div class="fixed row menu-item menu-options">
+            <app-menu *ngIf="showMenu"></app-menu>
+        </div>
     </div>
 </div>
