@@ -1,11 +1,13 @@
-import { MenuComponent } from './components/menu/menu.component';
+import { SearchComponent } from './components/search/search.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes =
 [
-  // {path: "", component: MenuComponent}
+  {path: "", component: SearchComponent},
+  {path: "recipeDetail", component: SearchComponent},
+  {path: "recipeCreate", component: SearchComponent}
 ];
 
 @NgModule({

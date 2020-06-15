@@ -1,0 +1,59 @@
+<!-- <div class="search-form"> -->
+<div class="search-form" *ngIf="userService.logedin">
+    <form
+        (ngSubmit)="onSubmitSearchQuery(searchQueryForm)"
+        #searchQueryForm="ngForm">
+        <div class="container">
+            <div class="row">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <input
+                            type="text"
+                            class="list-group-item"
+                            name="recipeName"
+                            placeholder="Recipe name"
+                            ngModel />
+                    </li>
+                    <li>
+                        Ingredient <input
+                            type="checkbox"
+                            name="ingredientCheckBox"
+                            ngModel />
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <button
+                    type="submit"
+                    class="login-button list-group-item active">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div
+    class="recipe-base-container"
+    style="margin-top: 2vw;margin-left: 10vw;margin-right: 10vw;">
+    <ul class="list-group">
+        <li
+            class="list-group-item"
+            *ngFor="let recipeBase of recipeBaseResponseList; let i=index"
+            (click)="onRecipeBaseItemClick(i)">
+            <div class="container">
+                <h2>{{recipeBase.title}}</h2>
+                <img
+                    [src]="getRecipeImageAddress(i)"
+                    width="80vw"
+                    height="80vw" />
+                <p><b>Ready in minutes:</b> {{recipeBase.readyInMinutes}}</p>
+                <p><b>Servings:</b> {{recipeBase.servings}}</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div
+    class="message-container"
+    *ngIf="stateMessage !== ''">
+    <p>{{ stateMessage }}</p>
+</div>

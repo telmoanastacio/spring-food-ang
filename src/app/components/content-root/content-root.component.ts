@@ -1,6 +1,7 @@
-import { UserService } from 'src/app/services/user/user.service';
-import { StateMessage } from './state-message.enum';
+import { StateRoute } from './state-route.enum';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-content-root',
@@ -9,26 +10,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentRootComponent implements OnInit
 {
-  public stateMessage: StateMessage = StateMessage.CONTENT_MISSING;
+  private location: Location = null;
+  private router: Router = null;
 
-  private userService: UserService = null;
+  public currentRoute: StateRoute = StateRoute.ROOT;
 
-  public constructor(userService: UserService)
+  public constructor(location: Location, router: Router)
   {
-    this.userService = userService;
+    this.location = location;
+    this.router = router;
   }
 
   public ngOnInit(): void
   {
-    if(this.userService.isLogedin())
-    {
-      this.stateMessage = StateMessage.CONTENT_MISSING;
-    }
-    else
-    {
-      this.stateMessage = StateMessage.LOGIN_MISSING;
-    }
-    // this.stateMessage = StateMessage.OK;
+    this.getCurrentRoute();
   }
 
+  private getCurrentRoute(): void
+  {
+    switch(this.location.path())
+    {
+      case StateRoute.RECIPE_CREATE:
+      {
+        this.currentRoute = StateRoute.RECIPE_CREATE;
+        break;
+      }
+      default:
+      {
+        this.currentRoute = StateRoute.ROOT;
+      }
+    }
+  }
+
+  public onSearchClick(): void
+  {
+    this.router.navigate(["/"]);
+    this.currentRoute = StateRoute.ROOT;
+  }
+
+  public onCreateClick(): void
+  {
+    this.router.navigate(["/recipeCreate"]);
+    this.currentRoute = StateRoute.RECIPE_CREATE;
+  }
 }

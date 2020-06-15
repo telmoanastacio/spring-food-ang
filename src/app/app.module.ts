@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { PreMenuComponent } from './components/pre-menu/pre-menu.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ContentRootComponent } from './components/content-root/content-root.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       PreMenuComponent,
       MenuComponent,
-      ContentRootComponent
+      ContentRootComponent,
+      SearchComponent
    ],
    imports: [
       BrowserModule,

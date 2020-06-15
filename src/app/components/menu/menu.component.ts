@@ -4,7 +4,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-menu-options',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })

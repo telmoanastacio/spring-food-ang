@@ -1,6 +1,20 @@
-<div
-    class="message-container"
-    *ngIf="stateMessage !== ''">
-    <p>{{ stateMessage }}</p>
+<div class="options">
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onSearchClick()"
+                *ngIf="currentRoute !== '/'">Search</button>
+        </li>
+        <li class="list-inline-item">
+            <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onCreateClick()"
+                *ngIf="currentRoute !== '/recipeCreate'">Create</button>
+        </li>
+    </ul>
 </div>
-<!-- <router-outlet></router-outlet> -->
+
+<router-outlet></router-outlet>

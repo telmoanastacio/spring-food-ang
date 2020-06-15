@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { LoginStatusEvent } from './login-status-event';
+import { SearchComponent } from './../../components/search/search.component';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from './login';
 import { Observable } from 'rxjs';
@@ -15,6 +17,10 @@ import { Config } from '../config';
 export class UserService
 {
   private BASE_URL: string = Config.BASE_URL;
+
+  @Output("loginEvent")
+  public userLoginStatusEventEmitter: EventEmitter<LoginStatusEvent>
+    = new EventEmitter<LoginStatusEvent>();
 
   private csrfService: CsrfService = null;
   private httpUtilsService: HttpUtilsService = null;
@@ -79,9 +85,11 @@ export class UserService
             this.username = username;
             this.password = password;
 
+            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
             alert("Login successfull.");
             return;
           }
+          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
@@ -90,9 +98,11 @@ export class UserService
           // forbiden
           if(e.status === 401)
           {
+            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
             alert("Login failed. Bad credentials.");
             return;
           }
+          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
@@ -221,6 +231,8 @@ export class UserService
           this.username = null;
           this.password = null;
           this.logedin = false;
+
+          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
           alert("Logout successfull.");
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
 
@@ -229,6 +241,8 @@ export class UserService
         error: (e: any) =>
         {
           this.logedin = false;
+
+          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
           alert("Logout failed.");
           this.httpUtilsService.redirectToExternalUrl(
             this.BASE_URL + "access-denied");
@@ -278,11 +292,12 @@ export class UserService
               this.password = null;
               this.logedin = false;
 
+              this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
               alert("Delete account successfull.");
               this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
-  
               return;
             }
+            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
             this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
@@ -291,14 +306,14 @@ export class UserService
             // bad request - user not found
             if(e.status === 400)
             {
-              console.log("user not found");
-
+              this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
               alert("Delete account failed.");
               this.httpUtilsService.redirectToExternalUrl(
                 this.BASE_URL + "access-denied");
 
               return;
             }
+            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
             this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
