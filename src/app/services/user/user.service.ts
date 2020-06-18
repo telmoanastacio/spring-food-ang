@@ -1,5 +1,4 @@
 import { LoginStatusEvent } from './login-status-event';
-import { SearchComponent } from './../../components/search/search.component';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from './login';
@@ -27,6 +26,7 @@ export class UserService
   private httpClient: HttpClient = null;
 
   public logedin: boolean = false;
+  public admin: boolean = false;
   private username: string = null;
   private password: string = null;
 
@@ -78,18 +78,28 @@ export class UserService
           // accepted
           if(response.status === 202)
           {
-            const token = response.headers.get('_csrf')
+            const token = response.headers.get('_csrf');
             this.csrfService.setCsrfToken(token);
+
+            this.checkAuthorities(response);
 
             this.logedin = true;
             this.username = username;
             this.password = password;
 
-            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+            this.userLoginStatusEventEmitter.emit(
+              {
+                isLogedin: this.logedin,
+                isAdmin: this.admin
+              });
             alert("Login successfull.");
             return;
           }
-          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+          this.userLoginStatusEventEmitter.emit(
+            {
+              isLogedin: this.logedin,
+              isAdmin: this.admin
+            });
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
@@ -98,11 +108,19 @@ export class UserService
           // forbiden
           if(e.status === 401)
           {
-            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+            this.userLoginStatusEventEmitter.emit(
+              {
+                isLogedin: this.logedin,
+                isAdmin: this.admin
+              });
             alert("Login failed. Bad credentials.");
             return;
           }
-          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+          this.userLoginStatusEventEmitter.emit(
+            {
+              isLogedin: this.logedin,
+              isAdmin: this.admin
+            });
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
           return;
         },
@@ -231,8 +249,13 @@ export class UserService
           this.username = null;
           this.password = null;
           this.logedin = false;
+          this.admin = false;
 
-          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+          this.userLoginStatusEventEmitter.emit(
+            {
+              isLogedin: this.logedin,
+              isAdmin: this.admin
+            });
           alert("Logout successfull.");
           this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
 
@@ -241,8 +264,13 @@ export class UserService
         error: (e: any) =>
         {
           this.logedin = false;
+          this.admin = false;
 
-          this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+          this.userLoginStatusEventEmitter.emit(
+            {
+              isLogedin: this.logedin,
+              isAdmin: this.admin
+            });
           alert("Logout failed.");
           this.httpUtilsService.redirectToExternalUrl(
             this.BASE_URL + "access-denied");
@@ -291,13 +319,22 @@ export class UserService
               this.username = null;
               this.password = null;
               this.logedin = false;
+              this.admin = false;
 
-              this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+              this.userLoginStatusEventEmitter.emit(
+                {
+                  isLogedin: this.logedin,
+                  isAdmin: this.admin
+                });
               alert("Delete account successfull.");
               this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
               return;
             }
-            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+            this.userLoginStatusEventEmitter.emit(
+              {
+                isLogedin: this.logedin,
+                isAdmin: this.admin
+              });
             this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
@@ -306,14 +343,22 @@ export class UserService
             // bad request - user not found
             if(e.status === 400)
             {
-              this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+              this.userLoginStatusEventEmitter.emit(
+                {
+                  isLogedin: this.logedin,
+                  isAdmin: this.admin
+                });
               alert("Delete account failed.");
               this.httpUtilsService.redirectToExternalUrl(
                 this.BASE_URL + "access-denied");
 
               return;
             }
-            this.userLoginStatusEventEmitter.emit({isLogedin: this.logedin});
+            this.userLoginStatusEventEmitter.emit(
+              {
+                isLogedin: this.logedin,
+                isAdmin: this.admin
+              });
             this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
             return;
           },
@@ -324,9 +369,25 @@ export class UserService
         });
   }
 
+  private checkAuthorities(response: any)
+  {
+    const authorities: string = response.headers.get('AUTHORITY');
+    const authorityList: Array<string> = authorities.split(",");
+    if(authorityList.includes("ADMIN"))
+    {
+      this.admin = true;
+      console.log("User is ADMIN.");
+    }
+  }
+
   public isLogedin(): boolean
   {
     return this.logedin;
+  }
+
+  public isAdmin(): boolean
+  {
+    return this.admin;
   }
 
   public getUserName(): string

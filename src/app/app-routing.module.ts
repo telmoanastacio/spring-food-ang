@@ -7,7 +7,8 @@ const routes: Routes =
 [
   {path: "", component: SearchComponent},
   {path: "recipeDetail", component: SearchComponent},
-  {path: "recipeCreate", component: SearchComponent}
+  {path: "recipeCreate", component: SearchComponent},
+  {path: "recipeDelete", component: SearchComponent}
 ];
 
 @NgModule({
