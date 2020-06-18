@@ -9,6 +9,7 @@ import { PreMenuComponent } from './components/pre-menu/pre-menu.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ContentRootComponent } from './components/content-root/content-root.component';
 import { SearchComponent } from './components/search/search.component';
+import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
 
 @NgModule({
    declarations: [
@@ -16,7 +17,8 @@ import { SearchComponent } from './components/search/search.component';
       PreMenuComponent,
       MenuComponent,
       ContentRootComponent,
-      SearchComponent
+      SearchComponent,
+      RecipeDetailComponent
    ],
    imports: [
       BrowserModule,

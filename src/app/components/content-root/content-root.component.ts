@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user/user.service';
 import { StateRoute } from './state-route.enum';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
@@ -12,13 +13,18 @@ export class ContentRootComponent implements OnInit
 {
   private location: Location = null;
   private router: Router = null;
+  public userService: UserService = null;
 
   public currentRoute: StateRoute = StateRoute.ROOT;
 
-  public constructor(location: Location, router: Router)
+  public constructor(
+    location: Location,
+    router: Router,
+    userService: UserService)
   {
     this.location = location;
     this.router = router;
+    this.userService = userService;
   }
 
   public ngOnInit(): void
@@ -32,12 +38,12 @@ export class ContentRootComponent implements OnInit
     {
       case StateRoute.RECIPE_CREATE:
       {
-        this.currentRoute = StateRoute.RECIPE_CREATE;
+        this.userService.currentRoute = StateRoute.RECIPE_CREATE;
         break;
       }
       default:
       {
-        this.currentRoute = StateRoute.ROOT;
+        this.userService.currentRoute = StateRoute.ROOT;
       }
     }
   }
@@ -45,12 +51,12 @@ export class ContentRootComponent implements OnInit
   public onSearchClick(): void
   {
     this.router.navigate(["/"]);
-    this.currentRoute = StateRoute.ROOT;
+    this.userService.currentRoute = StateRoute.ROOT;
   }
 
   public onCreateClick(): void
   {
     this.router.navigate(["/recipeCreate"]);
-    this.currentRoute = StateRoute.RECIPE_CREATE;
+    this.userService.currentRoute = StateRoute.RECIPE_CREATE;
   }
 }

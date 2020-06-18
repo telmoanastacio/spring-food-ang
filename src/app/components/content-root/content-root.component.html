@@ -1,18 +1,18 @@
-<div class="options">
+<div class="options" *ngIf="userService.logedin">
     <ul class="list-inline">
         <li class="list-inline-item">
             <button
                 type="button"
                 class="btn btn-primary"
                 (click)="onSearchClick()"
-                *ngIf="currentRoute !== '/'">Search</button>
+                *ngIf="userService.currentRoute !== '/'">Search</button>
         </li>
         <li class="list-inline-item">
             <button
                 type="button"
                 class="btn btn-primary"
                 (click)="onCreateClick()"
-                *ngIf="currentRoute !== '/recipeCreate'">Create</button>
+                *ngIf="userService.currentRoute !== '/recipeCreate'">Create</button>
         </li>
     </ul>
 </div>

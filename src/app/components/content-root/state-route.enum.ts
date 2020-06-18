@@ -1,5 +1,6 @@
 export enum StateRoute
 {
     ROOT = "/",
-    RECIPE_CREATE = "/recipeCreate"
+    RECIPE_CREATE = "/recipeCreate",
+    OTHER = "other"
 }
