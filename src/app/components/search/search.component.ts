@@ -4,7 +4,10 @@ import { ApiClientService } from './../../services/api-client/api-client.service
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { StateMessage } from './state-message.enum';
-import { Component, OnInit, ChangeDetectorRef, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { StateRoute } from '../content-root/state-route.enum';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -17,24 +20,31 @@ export class SearchComponent implements OnInit, OnDestroy
 
   public userService: UserService = null;
   public apiClientService: ApiClientService = null;
+  private router: Router = null;
+  private userLoginStatusEventSubscription: Subscription = null;
+  private recipeSearchResponseBodyEventSusbscription: Subscription = null;
 
   public recipeBaseResponseList: Array<RecipeBaseResponse> = new Array();
 
   public constructor(
     userService: UserService,
-    apiClientService: ApiClientService)
+    apiClientService: ApiClientService,
+    router: Router)
   {
     this.userService = userService;
     this.apiClientService = apiClientService;
+    this.router = router;
   }
 
   public ngOnInit(): void
   {
-    this.userService.userLoginStatusEventEmitter.subscribe(loginStatusEvent =>
+    this.userLoginStatusEventSubscription =
+      this.userService.userLoginStatusEventEmitter.subscribe(loginStatusEvent =>
       {
         this.setRecipeBaseResponseList(null);
       });
-    this.apiClientService.recipeSearchResponseBodyEventEmitter.subscribe(
+    this.recipeSearchResponseBodyEventSusbscription =
+      this.apiClientService.recipeSearchResponseBodyEventEmitter.subscribe(
       recipeSearchResponseBodyEvent =>
       {
         const RECIPE_SEARCH_RESPONSE_BODY_EVENT: RecipeSearchResponseBodyEvent
@@ -58,8 +68,8 @@ export class SearchComponent implements OnInit, OnDestroy
 
   public ngOnDestroy(): void
   {
-    this.userService.userLoginStatusEventEmitter.unsubscribe();
-    this.apiClientService.recipeSearchResponseBodyEventEmitter.unsubscribe();
+    this.userLoginStatusEventSubscription.unsubscribe();
+    this.recipeSearchResponseBodyEventSusbscription.unsubscribe();
   }
 
   public onSubmitSearchQuery(
@@ -114,8 +124,11 @@ export class SearchComponent implements OnInit, OnDestroy
     console.log("Pressed item with recipe base id: "
     + this.recipeBaseResponseList[recipeBaseResponseListIndex].id);
 
-    //TODO: route to recipeDetail?recipeBaseId={recipeBaseId}
-    // this.router.navigate(["/recipeDetail?recipeBaseId={recipeBaseId}"]);
+    let routeStr: string = "/recipeDetail/";
+    routeStr += this.recipeBaseResponseList[recipeBaseResponseListIndex].id;
+
+    this.router.navigate([routeStr]);
+    this.userService.currentRoute = StateRoute.OTHER;
   }
 
   public setRecipeBaseResponseList(

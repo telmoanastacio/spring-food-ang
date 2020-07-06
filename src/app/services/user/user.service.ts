@@ -8,15 +8,13 @@ import { HttpUtilsService } from '../utils/http-utils.service';
 import { Register } from './register';
 import { Logout } from './logout';
 import { DeleteAccount } from './delete-account';
-import { Config } from '../config';
+import { StateRoute } from 'src/app/components/content-root/state-route.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService
 {
-  private BASE_URL: string = Config.BASE_URL;
-
   @Output("loginEvent")
   public userLoginStatusEventEmitter: EventEmitter<LoginStatusEvent>
     = new EventEmitter<LoginStatusEvent>();
@@ -25,6 +23,7 @@ export class UserService
   private httpUtilsService: HttpUtilsService = null;
   private httpClient: HttpClient = null;
 
+  public currentRoute: StateRoute = StateRoute.ROOT;
   public logedin: boolean = false;
   public admin: boolean = false;
   private username: string = null;
@@ -59,8 +58,7 @@ export class UserService
       _csrf: this.csrfService.getCsrfToken()
     };
     
-    return this.httpClient.post<any>(
-      this.BASE_URL + "/authenticate",
+    return this.httpClient.post<any>("authenticate",
       this.httpUtilsService.getFormUrlEncoded(login),
       {
         observe: "response",
@@ -100,7 +98,7 @@ export class UserService
               isLogedin: this.logedin,
               isAdmin: this.admin
             });
-          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+          this.httpUtilsService.redirectToExternalUrl("");
           return;
         },
         error: (e: any) =>
@@ -121,7 +119,7 @@ export class UserService
               isLogedin: this.logedin,
               isAdmin: this.admin
             });
-          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+          this.httpUtilsService.redirectToExternalUrl("");
           return;
         },
         complete: () =>
@@ -162,8 +160,7 @@ export class UserService
       _csrf: this.csrfService.getCsrfToken()
     };
     
-    return this.httpClient.post<any>(
-      this.BASE_URL + "/register",
+    return this.httpClient.post<any>("register",
       this.httpUtilsService.getFormUrlEncoded(register),
       {
         observe: "response",
@@ -195,11 +192,11 @@ export class UserService
             if(response.status === 202)
             {
               alert("Register successfull.");
-              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+              this.httpUtilsService.redirectToExternalUrl("");
   
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+            this.httpUtilsService.redirectToExternalUrl("");
             return;
           },
           error: (e: any) =>
@@ -210,11 +207,11 @@ export class UserService
               console.log("user already registered");
 
               alert("Register conflict. Username taken.");
-              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+              this.httpUtilsService.redirectToExternalUrl("");
 
               return;
             }
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+            this.httpUtilsService.redirectToExternalUrl("");
             return;
           },
           complete: () =>
@@ -231,8 +228,7 @@ export class UserService
       _csrf: this.csrfService.getCsrfToken()
     };
     
-    return this.httpClient.post<any>(
-      this.BASE_URL + "/logout",
+    return this.httpClient.post<any>("logout",
       this.httpUtilsService.getFormUrlEncoded(logout),
       {
         headers: new HttpHeaders(
@@ -257,7 +253,7 @@ export class UserService
               isAdmin: this.admin
             });
           alert("Logout successfull.");
-          this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+          this.httpUtilsService.redirectToExternalUrl("");
 
           return;
         },
@@ -272,8 +268,7 @@ export class UserService
               isAdmin: this.admin
             });
           alert("Logout failed.");
-          this.httpUtilsService.redirectToExternalUrl(
-            this.BASE_URL + "access-denied");
+          this.httpUtilsService.redirectToExternalUrl("access-denied");
 
           return;
         },
@@ -297,8 +292,7 @@ export class UserService
       _csrf: this.csrfService.getCsrfToken()
     };
     
-    return this.httpClient.post<any>(
-      this.BASE_URL + "/delete-account",
+    return this.httpClient.post<any>("delete-account",
       this.httpUtilsService.getFormUrlEncoded(deleteAccount),
       {
         observe: "response",
@@ -327,7 +321,7 @@ export class UserService
                   isAdmin: this.admin
                 });
               alert("Delete account successfull.");
-              this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+              this.httpUtilsService.redirectToExternalUrl("");
               return;
             }
             this.userLoginStatusEventEmitter.emit(
@@ -335,7 +329,7 @@ export class UserService
                 isLogedin: this.logedin,
                 isAdmin: this.admin
               });
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+            this.httpUtilsService.redirectToExternalUrl("");
             return;
           },
           error: (e: any) =>
@@ -349,8 +343,7 @@ export class UserService
                   isAdmin: this.admin
                 });
               alert("Delete account failed.");
-              this.httpUtilsService.redirectToExternalUrl(
-                this.BASE_URL + "access-denied");
+              this.httpUtilsService.redirectToExternalUrl("access-denied");
 
               return;
             }
@@ -359,7 +352,7 @@ export class UserService
                 isLogedin: this.logedin,
                 isAdmin: this.admin
               });
-            this.httpUtilsService.redirectToExternalUrl(this.BASE_URL);
+            this.httpUtilsService.redirectToExternalUrl("");
             return;
           },
           complete: () =>

@@ -6,6 +6,7 @@ html, body
     padding: 0%;
     font-family: Arial, Helvetica, sans-serif;
     display: grid;
+    background: #fffff0;
 }
 
 .modal-backdrop.fade

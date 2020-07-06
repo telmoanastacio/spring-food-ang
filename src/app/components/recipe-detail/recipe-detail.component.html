@@ -1,0 +1,147 @@
+<div>
+    <div class="summary-div">
+        <ul class="list-group summary-ul">
+            <li class="list-group-item summary-li">
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.preparationInMinutes !== null
+                    && recipeDetail.preparationInMinutes !== undefined">
+                    <img src="res/chef-hat-ico.png" alt="chef-hat-ico">
+                    <span> {{recipeDetail.preparationInMinutes}} minutes</span>
+                </div>
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.cookingMinutes !== null
+                    && recipeDetail.cookingMinutes !== undefined">
+                    <img src="res/oven-ico.png" alt="oven-ico">
+                    <span> {{recipeDetail.cookingMinutes}} minutes</span>
+                </div>
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.readyInMinutes !== null
+                    && recipeDetail.readyInMinutes !== undefined">
+                    <img src="res/clock-ico.png" alt="clock-ico">
+                    <span> {{recipeDetail.readyInMinutes}} minutes</span>
+                </div>
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.servings !== null
+                    && recipeDetail.servings !== undefined">
+                    <img
+                        src="res/dish-with-crowd-ico.png"
+                        alt="dish-with-crowd-ico">
+                    <span> {{recipeDetail.servings}} servings</span>
+                </div>
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.pricePerServing !== null
+                    && recipeDetail.pricePerServing !== undefined">
+                    <img
+                        src="res/dish-with-dolar-ico.png"
+                        alt="dish-with-dolar-ico">
+                    <span> {{recipeDetail.pricePerServing}}$</span>
+                </div>
+                <div *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.spoonacularScore !== null
+                    && recipeDetail.spoonacularScore !== undefined">
+                    <img
+                    src="res/dish-with-thumb-up-ico.png"
+                    alt="dish-with-thumb-up-ico">
+                    <span> {{recipeDetail.spoonacularScore}}%</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="primary-box" style="vertical-align: middle">
+            <h2>
+                <b>{{recipeDetail !== null
+                    && recipeDetail !== undefined
+                    && recipeDetail.title !== null
+                    && recipeDetail.title !== undefined
+                    ? recipeDetail.title
+                    : '-'}}</b>
+            </h2>
+            <h6 *ngIf="getTags() !== null"><b>{{tags}}</b></h6>
+            <h6 *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                && recipeDetail.creditsText !== null
+                && recipeDetail.creditsText !== undefined">
+                Credits: {{recipeDetail.creditsText}} 
+                <h6 *ngIf="recipeDetail !== null && recipeDetail !== undefined
+                    && recipeDetail.sourceUrl !== null
+                    && recipeDetail.sourceUrl !== undefined">
+                    (<a [href]="recipeDetail.sourceUrl">
+                        press to folow source
+                    </a>)
+                </h6>
+            </h6>
+        </div>
+    </div>
+
+    <div class="recipe-container">
+        <!-- INGREDIENTS -->
+        <ul class="list-group ingredient-list-group">
+            <li class="list-group-item">
+                <h4>INGREDIENTS</h4>
+            </li>
+
+            <li
+                class="list-group-item"
+                *ngFor="let ingredient of recipeDetail.ingredients;
+                let i=index">
+                <div
+                    class="ingredient-div"
+                    *ngIf="ingredient !== null && ingredient !== undefined">
+                    <div
+                        class="ingredient-ammount"
+                        *ngIf="ingredient.amount !== null
+                        && ingredient.amount !== undefined">
+                        <span>{{getIngredientAmmount(ingredient)}}</span>
+                    </div>
+                    <div
+                        class="ingredient-name" 
+                        *ngIf="ingredient.originalName !== null
+                        && ingredient.originalName !== undefined">
+                        <span>{{ingredient.originalName}}</span>
+                    </div>
+                </div>
+
+                <ul
+                    class="list-group"
+                    *ngFor="let meta of ingredient.ingredientMetaList;
+                    let i=index">
+                    <li
+                        class="list-group-item list-group-item-meta"
+                        *ngIf="meta !== null && meta !== undefined">
+                        {{meta}}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- STEPS -->
+        <ul class="list-group step-list-group">
+            <li class="list-group-item">
+                <h4>STEPS</h4>
+            </li>
+
+            <li
+                class="list-group-item"
+                *ngFor="let stepResponseList of recipeDetail.stepOptionList;
+                let i=index">
+                <div class="step-div">
+                    <div class="step-option-number">
+                        <span>{{i + 1}}</span>
+                    </div>
+                </div>
+
+                <ul
+                    class="list-group"
+                    *ngFor="let stepResponse of stepResponseList; let i=index">
+                    <li
+                        class="list-group-item list-group-step"
+                        *ngIf="stepResponse !== null
+                        && stepResponse !== undefined
+                        && stepResponse.step !== null
+                        && stepResponse.step !== undefined">
+                        {{stepResponse.step}}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

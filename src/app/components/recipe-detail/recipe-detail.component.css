@@ -1,0 +1,169 @@
+img
+{
+    vertical-align: text-top;
+    height: 1em;
+    width: 1em;
+}
+
+.summary-div
+{
+    display: flex;
+}
+
+.summary-ul
+{
+    min-width: 10em;
+    margin: 0vw 3vw 0vw 1vw;
+}
+
+.summary-li
+{
+    border: 5px solid #FFD70090;
+    background: #FFD70070;
+}
+
+.recipe-container
+{
+    display: grid;
+    margin: 0em 1em 0em 0em;
+}
+
+.ingredient-list-group
+{
+    display: flex;
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+    margin: 1vw 0vw 0vw 1vw;
+    min-width: 48em;
+    overflow: hidden;
+}
+
+.ingredient-list-group > .list-group-item
+{
+    border: none;
+    border-top: 1px solid #000000;
+}
+
+.ingredient-list-group > .list-group-item:first-child
+{
+    border: none;
+    border-top: none;
+}
+
+.ingredient-div
+{
+    display: flex;
+    margin: 1vw;
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+}
+
+.ingredient-ammount
+{
+    width: 6em;
+    background: #FF4200;
+    text-align: center;
+    border-right: 1px solid #000000;
+}
+
+.ingredient-ammount span
+{
+    color: white;
+}
+
+.ingredient-name
+{
+    width: calc(100% - 6em);
+    padding: 0em 0.5em 0em 0.5em;
+    background: #FFEE00;
+}
+
+.ingredient-name span
+{
+    color: #904040;
+    font-weight: bold;
+}
+
+.ingredient-list-group > .list-group-item > .list-group
+{
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+    margin: 0vw 1vw 1vw 1vw;
+}
+
+.ingredient-list-group > .list-group-item > .list-group > .list-group-item-meta
+{
+    border: none;
+    border-top: 1px solid #000000;
+}
+
+.ingredient-list-group > .list-group-item > .list-group
+> .list-group-item-meta:first-child
+{
+    border: none;
+    border-top: none;
+}
+
+.step-list-group
+{
+    display: flex;
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+    margin: 1vw 0vw 4vw 1vw;
+    min-width: 48em;
+    overflow: hidden;
+}
+
+.step-list-group > .list-group-item
+{
+    border: none;
+    border-top: 1px solid #000000;
+}
+
+.step-list-group > .list-group-item:first-child
+{
+    border: none;
+    border-top: none;
+}
+
+.step-div
+{
+    display: inline-flex;
+    margin: 1vw;
+    width: calc(46em + 4px);
+}
+
+.step-option-number
+{
+    height: 1.5em;
+    width: 2em;
+    background: #FF4200;
+    text-align: center;
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+}
+
+.step-option-number span
+{
+    color: white;
+}
+
+.step-list-group > .list-group-item > .list-group
+{
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+    margin: 0vw 1vw 1vw 1vw;
+}
+
+.step-list-group > .list-group-item > .list-group > .list-group-step
+{
+    border: none;
+    border-top: 1px solid #000000;
+}
+
+.step-list-group > .list-group-item > .list-group
+> .list-group-step:first-child
+{
+    border: none;
+    border-top: none;
+}
