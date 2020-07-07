@@ -12,22 +12,22 @@
     background-color: #EEEEEEFF;
     position: fixed;
     width: 100%;
-    height: 2.2vw;
+    height: 2.2em;
     align-content: center;
 }
 
 .menu-options
 {
     float: left;
-    width: 10vw;
-    max-width: 10vw;
-    top: 2.2vw;
+    width: 10em;
+    max-width: 10em;
+    top: 2.2em;
 }
 
 .menu-button
 {
-    font-size: 1.2vw;
-    padding: 0.5vw;
+    font-size: 1.2em;
+    padding: 0.5em;
     float: left;
     text-align: center;
     vertical-align: middle;
