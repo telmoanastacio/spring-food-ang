@@ -1,12 +1,18 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { DismissMenuEvent } from './../../services/user/dismiss-menu-event';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { UserService } from 'src/app/services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pre-menu',
   templateUrl: './pre-menu.component.html',
   styleUrls: ['./pre-menu.component.css']
 })
-export class PreMenuComponent implements OnInit
+export class PreMenuComponent implements OnInit, OnDestroy
 {
+  private userService: UserService = null;
+  private dismissMenuEventSubscription: Subscription = null;
+
   public showMenu: boolean = false;
   private isComponentClick: boolean = false;
   private isMenuButtonClick: boolean = false;
@@ -35,9 +41,77 @@ export class PreMenuComponent implements OnInit
     this.isMenuButtonClick = false;
   }
 
-  public constructor() {}
+  public constructor(userService: UserService)
+  {
+    this.userService = userService;
 
-  public ngOnInit(): void{}
+
+  }
+
+  public ngOnInit(): void
+  {
+    this.dismissMenuEventSubscription =
+      this.userService.dismissMenuEventEmitter.subscribe(dismissMenuEvent =>
+      {
+        const DISMISS_MENU_EVENT: DismissMenuEvent
+          = dismissMenuEvent;
+
+        this.handleDismissMenuEvent(DISMISS_MENU_EVENT);
+      });
+  }
+
+  public ngOnDestroy(): void
+  {
+    this.dismissMenuEventSubscription.unsubscribe();
+  }
+
+  private handleDismissMenuEvent(dismissMenuEvent: DismissMenuEvent)
+  {
+    if(dismissMenuEvent !== null && dismissMenuEvent !== undefined)
+        {
+          let isDismiss = false;
+
+          if(dismissMenuEvent.isForceDismiss !== null
+            && dismissMenuEvent.isForceDismiss !== undefined
+            && dismissMenuEvent.isForceDismiss)
+          {
+            isDismiss = true;
+          }
+
+          if(dismissMenuEvent.isForceDismiss !== null
+            && dismissMenuEvent.isForceDismiss !== undefined
+            && dismissMenuEvent.isForceDismiss)
+          {
+            isDismiss = true;
+          }
+
+          if(dismissMenuEvent.isLogin !== null
+            && dismissMenuEvent.isLogin !== undefined
+            && dismissMenuEvent.isLogin)
+          {
+            isDismiss = true;
+          }
+
+          if(dismissMenuEvent.isLogout !== null
+            && dismissMenuEvent.isLogout !== undefined
+            && dismissMenuEvent.isLogout)
+          {
+            isDismiss = true;
+          }
+
+          if(dismissMenuEvent.isDeleteAccount !== null
+            && dismissMenuEvent.isDeleteAccount !== undefined
+            && dismissMenuEvent.isDeleteAccount)
+          {
+            isDismiss = true;
+          }
+
+          if(isDismiss)
+          {
+            this.onMenuClick();
+          }
+        }
+  }
 
   public onMenuClick(): void
   {

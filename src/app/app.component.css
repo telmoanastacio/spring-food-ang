@@ -9,7 +9,7 @@ app-pre-menu
     position: fixed;
     float: left;
     width: 100%;
-    height: 2.2vw;
+    height: 2.2em;
     margin: 0%;
     padding: 0%;
     z-index: 100;
@@ -19,6 +19,6 @@ app-pre-menu
 app-content-root
 {
     position: relative;
-    top: 2.2vw;
+    top: 2.2em;
     z-index: 99;
 }

@@ -9,6 +9,7 @@ import { Register } from './register';
 import { Logout } from './logout';
 import { DeleteAccount } from './delete-account';
 import { StateRoute } from 'src/app/components/content-root/state-route.enum';
+import { DismissMenuEvent } from './dismiss-menu-event';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class UserService
   @Output("loginEvent")
   public userLoginStatusEventEmitter: EventEmitter<LoginStatusEvent>
     = new EventEmitter<LoginStatusEvent>();
+
+  @Output("dismissMenuEvent")
+  public dismissMenuEventEmitter: EventEmitter<DismissMenuEvent>
+    = new EventEmitter<DismissMenuEvent>();
 
   private csrfService: CsrfService = null;
   private httpUtilsService: HttpUtilsService = null;
@@ -89,6 +94,11 @@ export class UserService
               {
                 isLogedin: this.logedin,
                 isAdmin: this.admin
+              });
+            this.dismissMenuEventEmitter.emit(
+              {
+                isForceDismiss: false,
+                isLogin: true
               });
             alert("Login successfull.");
             return;
@@ -191,6 +201,11 @@ export class UserService
             // accepted
             if(response.status === 202)
             {
+              this.dismissMenuEventEmitter.emit(
+                {
+                  isForceDismiss: false,
+                  isRegister: true
+                });
               alert("Register successfull.");
               this.httpUtilsService.redirectToExternalUrl("");
   
@@ -252,6 +267,11 @@ export class UserService
               isLogedin: this.logedin,
               isAdmin: this.admin
             });
+          this.dismissMenuEventEmitter.emit(
+            {
+              isForceDismiss: false,
+              isLogout: true
+            });
           alert("Logout successfull.");
           this.httpUtilsService.redirectToExternalUrl("");
 
@@ -285,13 +305,13 @@ export class UserService
     {
       return;
     }
-    
+
     const deleteAccount: DeleteAccount =
     {
       username: this.username,
       _csrf: this.csrfService.getCsrfToken()
     };
-    
+
     return this.httpClient.post<any>("delete-account",
       this.httpUtilsService.getFormUrlEncoded(deleteAccount),
       {
@@ -319,6 +339,11 @@ export class UserService
                 {
                   isLogedin: this.logedin,
                   isAdmin: this.admin
+                });
+              this.dismissMenuEventEmitter.emit(
+                {
+                  isForceDismiss: false,
+                  isDeleteAccount: true
                 });
               alert("Delete account successfull.");
               this.httpUtilsService.redirectToExternalUrl("");
