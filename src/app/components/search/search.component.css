@@ -16,3 +16,21 @@
     transform: translate(-50%, -50%);
     z-index: -1;
 };
+
+.list-group-recipe
+{
+    border: 2px solid #000000;
+    border-radius: 0.25em;
+}
+
+.list-group-recipe > .list-group-item
+{
+    border: none;
+    border-top: 1px solid #000000;
+}
+
+.list-group-recipe > .list-group-item:first-child
+{
+    border: none;
+    border-top: none;
+}

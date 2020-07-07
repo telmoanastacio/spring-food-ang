@@ -33,8 +33,15 @@
 
 <div
     class="recipe-base-container"
-    style="margin-top: 2vw;margin-left: 10vw;margin-right: 10vw;">
-    <ul class="list-group">
+    style="display: table;
+    margin-top: 2vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 4vw;"
+    *ngIf="stateMessage === ''">
+    <ul
+        class="list-group list-group-recipe"
+        style="border: 2px solid #000000;border-radius: 0.25em;">
         <li
             class="list-group-item"
             *ngFor="let recipeBase of recipeBaseResponseList; let i=index"

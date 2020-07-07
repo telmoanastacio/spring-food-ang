@@ -58,6 +58,14 @@ export class SearchComponent implements OnInit, OnDestroy
     if(this.userService.isLogedin())
     {
       this.stateMessage = StateMessage.CONTENT_MISSING;
+
+      if(this.apiClientService.recipeSearchResponseBody !== null
+        &&  this.apiClientService.recipeSearchResponseBody !== undefined)
+      {
+        this.setRecipeBaseResponseList(
+          this.apiClientService.recipeSearchResponseBody
+          .recipeBaseResponseList);
+      }
     }
     else
     {
